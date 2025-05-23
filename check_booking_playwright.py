@@ -7,10 +7,10 @@ import os
 target_date = "2025-06-21"
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 # TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-TELEGRAM_CHAT_IDS = os.getenv("TELEGRAM_CHAT_IDS").split(";")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID").split(";")
 
 def send_telegram_message(message):
-    for chat_id in TELEGRAM_CHAT_IDS:
+    for chat_id in TELEGRAM_CHAT_ID:
         chat_id = chat_id.strip()
         if not chat_id:
             continue
