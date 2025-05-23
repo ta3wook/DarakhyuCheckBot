@@ -6,15 +6,20 @@ import os
 # 설정
 target_date = "2025-06-21"
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+# TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_CHAT_IDS = os.getenv("TELEGRAM_CHAT_IDS").split(";")
 
 def send_telegram_message(message):
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    data = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
-    try:
-        requests.post(url, data=data)
-    except Exception as e:
-        print("❗ 텔레그램 전송 실패:", e)
+    for chat_id in TELEGRAM_CHAT_IDS:
+        chat_id = chat_id.strip()
+        if not chat_id:
+            continue
+        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        data = {"chat_id": chat_id, "text": message}
+        try:
+            requests.post(url, data=data)
+        except Exception as e:
+            print(f"❗ {chat_id}에게 메시지 전송 실패:", e)
 
 def check_booking():
     with sync_playwright() as p:
